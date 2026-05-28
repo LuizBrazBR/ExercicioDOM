@@ -12,10 +12,10 @@ if (app) {
   app.innerHTML = `
   <div class="carousel">
     <div class="slides">
-      <img src=${imagem1} >
+      <img src=${imagem1} class="active">
       <img src=${imagem2} >
       <img src=${imagem3} >
-      <video src=${video} autoplay  controls></video>
+      <video src=${video} autoplay></video>
     </div>
     <div class="controllers">
       <button class="prev">←</button>
