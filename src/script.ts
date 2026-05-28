@@ -5,6 +5,12 @@ export default function slideClass(): void {
   const slides = document.querySelector(".slides");
   const controllers = document.querySelector(".controllers");
   if (container && slides && controllers) {
-    new Slide(container, Array.from(slides.children), controllers);
+    const slide = new Slide(
+      container,
+      Array.from(slides.children),
+      controllers,
+    );
+
+    slide.show(0);
   }
 }

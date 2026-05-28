@@ -11,7 +11,7 @@ if (app) {
   app.innerHTML = `
   <div class="carousel">
     <div class="slides">
-      <img src=${imagem1} class="active">
+      <img src=${imagem1} >
       <img src=${imagem2} >
       <img src=${imagem3} >
       <video src=${video} autoplay></video>
