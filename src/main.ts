@@ -14,11 +14,10 @@ if (app) {
       <img src=${imagem1} >
       <img src=${imagem2} >
       <img src=${imagem3} >
-      <video src=${video} autoplay></video>
+      <video src=${video} ></video>
     </div>
     <div class="controllers">
-      <button class="prev">←</button>
-      <button class="next">→</button>
+  
     </div>
   </div>
 `;

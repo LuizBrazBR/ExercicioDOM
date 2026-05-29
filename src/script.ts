@@ -10,6 +10,7 @@ export default function slideClass(): void {
       Array.from(slides.children),
       controllers,
     );
-    slide.show(0);
+
+    slide.init();
   }
 }

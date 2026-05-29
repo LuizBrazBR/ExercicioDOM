@@ -31,4 +31,30 @@ export default class Slide {
       n.classList.remove("active");
     });
   }
+
+  next() {
+    const total = this.elements.length;
+    this.show(this.index + 1 < total ? this.index + 1 : 0);
+  }
+
+  prev() {
+    const total = this.elements.length;
+    this.show(this.index - 1 >= 0 ? this.index - 1 : total - 1);
+  }
+
+  addControl() {
+    const next = document.createElement("button");
+    const prev = document.createElement("button");
+    next.innerHTML = ">";
+    prev.innerHTML = "<";
+    this.controls.appendChild(prev);
+    this.controls.appendChild(next);
+    next.addEventListener("pointerup", () => this.next());
+    prev.addEventListener("pointerup", () => this.prev());
+  }
+
+  init() {
+    this.show(this.index);
+    this.addControl();
+  }
 }
