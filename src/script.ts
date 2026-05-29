@@ -9,6 +9,7 @@ export default function slideClass(): void {
       container,
       Array.from(slides.children),
       controllers,
+      1000,
     );
 
     slide.init();
