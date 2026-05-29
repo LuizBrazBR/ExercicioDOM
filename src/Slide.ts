@@ -20,8 +20,15 @@ export default class Slide {
   }
 
   show(index: number) {
+    this.hide();
     this.index = index;
     this.slide = this.elements[this.index];
-    return this.slide.classList.add("active");
+    this.slide.classList.add("active");
+  }
+
+  hide() {
+    this.elements.forEach((n) => {
+      n.classList.remove("active");
+    });
   }
 }
