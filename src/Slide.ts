@@ -1,5 +1,3 @@
-import Timeout from "./Timeout";
-
 export default class Slide {
   container: Element;
   elements: Element[];
@@ -7,6 +5,7 @@ export default class Slide {
   time: number;
   index: number;
   slide: Element;
+  interval: Timeout;
   constructor(
     container: Element,
     elements: Element[],
@@ -53,12 +52,11 @@ export default class Slide {
     this.controls.appendChild(next);
     next.addEventListener("pointerup", () => this.next());
     prev.addEventListener("pointerup", () => this.prev());
-    const time = setTimeout(() => this.next, 3000);
-    time;
   }
 
   init() {
     this.show(this.index);
     this.addControl();
+    setInterval(() => this.next(), this.time);
   }
 }
