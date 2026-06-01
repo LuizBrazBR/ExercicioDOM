@@ -1,7 +1,5 @@
 import Timeout from "./Timeout";
 
-
-
 export default class Slide {
   container: Element;
   elements: Element[];
@@ -9,7 +7,7 @@ export default class Slide {
   time: number;
   index: number;
   slide: Element;
-  timeControl: Timeout
+  timeControl: Timeout | null;
 
   constructor(
     container: Element,
@@ -23,12 +21,16 @@ export default class Slide {
     this.time = time;
     this.index = 0;
     this.slide = this.elements[this.index];
-    this.timeControl = new Timeout(this.next.bind(this), this.time)
+    this.timeControl = null;
+  }
+
+  timeout() {
+    this.timeControl?.clear();
+    this.timeControl = new Timeout(() => this.next(), this.time);
   }
 
   show(index: number) {
-    this.timeControl.clear()
-    this.timeControl = new Timeout(this.next.bind(this), this.time)
+    this.timeout();
     this.hide();
     this.index = index;
     this.slide = this.elements[this.index];
