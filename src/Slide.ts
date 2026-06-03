@@ -46,6 +46,7 @@ export default class Slide {
   next() {
     const total = this.elements.length;
     this.show(this.index + 1 < total ? this.index + 1 : 0);
+   
   }
 
   prev() {
@@ -53,6 +54,9 @@ export default class Slide {
     this.show(this.index - 1 >= 0 ? this.index - 1 : total - 1);
   }
 
+  
+
+ 
   addControl() {
     const next = document.createElement("button");
     const prev = document.createElement("button");
@@ -62,6 +66,13 @@ export default class Slide {
     this.controls.appendChild(next);
     next.addEventListener("pointerup", () => this.next());
     prev.addEventListener("pointerup", () => this.prev());
+    prev.addEventListener("pointerdown", () => {
+      new Timeout(() => this.timeControl?.clear(), 800);
+    });
+    next.addEventListener("pointerdown", () => {
+      new Timeout(() => this.timeControl?.clear(), 800);
+    });
+
   }
 
   init() {
