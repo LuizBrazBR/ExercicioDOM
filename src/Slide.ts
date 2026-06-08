@@ -8,12 +8,14 @@ export default class Slide {
   index: number;
   slide: Element;
   timeControl: Timeout | null;
+  paused: boolean;
+  leftTime: number;
 
   constructor(
     container: Element,
     elements: Element[],
     controls: Element,
-    time: number = 5000,
+    time: number = 1000,
   ) {
     this.container = container;
     this.elements = elements;
@@ -22,6 +24,8 @@ export default class Slide {
     this.index = 0;
     this.slide = this.elements[this.index];
     this.timeControl = null;
+    this.paused = false;
+    this.leftTime = 0;
   }
 
   timeout() {
@@ -35,6 +39,7 @@ export default class Slide {
     this.index = index;
     this.slide = this.elements[this.index];
     this.slide.classList.add("active");
+    this.leftTime = Date.now();
   }
 
   hide() {
@@ -44,19 +49,24 @@ export default class Slide {
   }
 
   next() {
+    if (this.paused) return;
     const total = this.elements.length;
     this.show(this.index + 1 < total ? this.index + 1 : 0);
-   
   }
 
   prev() {
+    if (this.paused) return;
     const total = this.elements.length;
     this.show(this.index - 1 >= 0 ? this.index - 1 : total - 1);
   }
 
-  
+  pause() {
+    new Timeout(() => this.timeControl?.clear(), 800);
+    this.paused = true;
+    this.leftTime = Date.now() - this.leftTime;
+    console.log(this.leftTime);
+  }
 
- 
   addControl() {
     const next = document.createElement("button");
     const prev = document.createElement("button");
@@ -66,13 +76,8 @@ export default class Slide {
     this.controls.appendChild(next);
     next.addEventListener("pointerup", () => this.next());
     prev.addEventListener("pointerup", () => this.prev());
-    prev.addEventListener("pointerdown", () => {
-      new Timeout(() => this.timeControl?.clear(), 800);
-    });
-    next.addEventListener("pointerdown", () => {
-      new Timeout(() => this.timeControl?.clear(), 800);
-    });
-
+    prev.addEventListener("pointerdown", () => this.pause());
+    next.addEventListener("pointerdown", () => this.pause());
   }
 
   init() {
