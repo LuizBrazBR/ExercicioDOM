@@ -15,7 +15,7 @@ export default class Slide {
     container: Element,
     elements: Element[],
     controls: Element,
-    time: number = 1000,
+    time: number = 2000,
   ) {
     this.container = container;
     this.elements = elements;
@@ -29,17 +29,27 @@ export default class Slide {
   }
 
   timeout() {
-    this.timeControl?.clear();
-    this.timeControl = new Timeout(() => this.next(), this.time);
+    if (this.paused) {
+      this.paused = false;
+      this.timeControl?.clear();
+      this.timeControl = new Timeout(() => this.next(), this.leftTime);
+    } else {
+      this.timeControl?.clear();
+      this.timeControl = new Timeout(() => this.next(), this.time);
+    }
   }
 
   show(index: number) {
-    this.timeout();
-    this.hide();
-    this.index = index;
-    this.slide = this.elements[this.index];
-    this.slide.classList.add("active");
-    this.leftTime = Date.now();
+    if (this.paused) {
+      this.timeout();
+    } else {
+      this.leftTime = Date.now();
+      this.index = index;
+      this.slide = this.elements[this.index];
+      this.hide();
+      this.slide.classList.add("active");
+      this.timeout();
+    }
   }
 
   hide() {
@@ -49,22 +59,23 @@ export default class Slide {
   }
 
   next() {
-    if (this.paused) return;
     const total = this.elements.length;
     this.show(this.index + 1 < total ? this.index + 1 : 0);
   }
 
   prev() {
-    if (this.paused) return;
     const total = this.elements.length;
     this.show(this.index - 1 >= 0 ? this.index - 1 : total - 1);
   }
 
   pause() {
-    new Timeout(() => this.timeControl?.clear(), 800);
-    this.paused = true;
-    this.leftTime = Date.now() - this.leftTime;
-    console.log(this.leftTime);
+    new Timeout(() => {
+      this.timeControl?.clear();
+      this.paused = true;
+      const passaram = Date.now() - this.leftTime;
+      const restante = this.time - passaram;
+      this.leftTime = restante;
+    }, 300);
   }
 
   addControl() {
