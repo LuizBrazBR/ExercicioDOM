@@ -9,15 +9,13 @@ export default class Slide {
   slide: Element;
   timeControl: Timeout | null;
   paused: boolean;
-  leftTime: number;
   pressTimeout: Timeout | null = null;
-
 
   constructor(
     container: Element,
     elements: Element[],
     controls: Element,
-    time: number = 2000,
+    time: number = 3000,
   ) {
     this.container = container;
     this.elements = elements;
@@ -27,15 +25,13 @@ export default class Slide {
     this.slide = this.elements[this.index];
     this.timeControl = null;
     this.paused = false;
-    this.leftTime = 0;
     this.pressTimeout = null;
   }
 
   timeout() {
     if (this.paused) {
       this.paused = false;
-      this.timeControl?.clear();
-      this.timeControl = new Timeout(() => this.next(), this.leftTime);
+      this.timeControl?.continue();
     } else {
       this.timeControl?.clear();
       this.timeControl = new Timeout(() => this.next(), this.time);
@@ -46,7 +42,6 @@ export default class Slide {
     if (this.paused) {
       this.timeout();
     } else {
-      this.leftTime = Date.now();
       this.index = index;
       this.slide = this.elements[this.index];
       this.hide();
@@ -74,12 +69,9 @@ export default class Slide {
   }
 
   pause() {
-   this.pressTimeout = new Timeout(() => {
-      this.timeControl?.clear();
+    this.pressTimeout = new Timeout(() => {
+      this.timeControl?.pause();
       this.paused = true;
-      const passaram = Date.now() - this.leftTime;
-      const restante = this.time - passaram;
-      this.leftTime = restante;
     }, 300);
   }
 
