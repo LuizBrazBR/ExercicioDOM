@@ -46,6 +46,9 @@ export default class Slide {
       this.slide = this.elements[this.index];
       this.hide();
       this.slide.classList.add("active");
+      if (this.slide instanceof HTMLVideoElement) {
+        this.autoVideo(this.slide);
+      }
       this.timeout();
     }
   }
@@ -73,6 +76,11 @@ export default class Slide {
       this.timeControl?.pause();
       this.paused = true;
     }, 300);
+  }
+
+  autoVideo(el: HTMLVideoElement) {
+    el.muted = true;
+    el.play();
   }
 
   addControl() {
