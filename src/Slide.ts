@@ -10,6 +10,8 @@ export default class Slide {
   timeControl: Timeout | null;
   paused: boolean;
   leftTime: number;
+  pressTimeout: Timeout | null = null;
+
 
   constructor(
     container: Element,
@@ -26,6 +28,7 @@ export default class Slide {
     this.timeControl = null;
     this.paused = false;
     this.leftTime = 0;
+    this.pressTimeout = null;
   }
 
   timeout() {
@@ -59,17 +62,19 @@ export default class Slide {
   }
 
   next() {
+    this.pressTimeout?.clear();
     const total = this.elements.length;
     this.show(this.index + 1 < total ? this.index + 1 : 0);
   }
 
   prev() {
+    this.pressTimeout?.clear();
     const total = this.elements.length;
     this.show(this.index - 1 >= 0 ? this.index - 1 : total - 1);
   }
 
   pause() {
-    new Timeout(() => {
+   this.pressTimeout = new Timeout(() => {
       this.timeControl?.clear();
       this.paused = true;
       const passaram = Date.now() - this.leftTime;
