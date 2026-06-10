@@ -81,6 +81,10 @@ export default class Slide {
   autoVideo(el: HTMLVideoElement) {
     el.muted = true;
     el.play();
+    if (this.paused) {
+      el.pause();
+      console.log("Oi");
+    }
   }
 
   addControl() {
