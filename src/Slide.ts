@@ -28,34 +28,43 @@ export default class Slide {
     this.pressTimeout = null;
   }
 
-  timeout() {
+  timeout(time: number) {
     if (this.paused) {
       this.paused = false;
       this.timeControl?.continue();
+      if (this.slide instanceof HTMLVideoElement) {
+        this.slide.play();
+      }
     } else {
       this.timeControl?.clear();
-      this.timeControl = new Timeout(() => this.next(), this.time);
+      this.timeControl = new Timeout(() => this.next(), time);
     }
   }
 
   show(index: number) {
     if (this.paused) {
-      this.timeout();
+      this.timeout(this.time);
     } else {
       this.index = index;
+      localStorage.setItem("index", String(this.index));
       this.slide = this.elements[this.index];
       this.hide();
       this.slide.classList.add("active");
       if (this.slide instanceof HTMLVideoElement) {
         this.autoVideo(this.slide);
+      } else {
+        this.timeout(this.time);
       }
-      this.timeout();
     }
   }
 
   hide() {
     this.elements.forEach((n) => {
       n.classList.remove("active");
+      if (n instanceof HTMLVideoElement) {
+        n.pause();
+        n.currentTime = 0;
+      }
     });
   }
 
@@ -75,16 +84,20 @@ export default class Slide {
     this.pressTimeout = new Timeout(() => {
       this.timeControl?.pause();
       this.paused = true;
+      if (this.slide instanceof HTMLVideoElement) {
+        this.slide.pause();
+      }
     }, 300);
   }
 
   autoVideo(el: HTMLVideoElement) {
     el.muted = true;
     el.play();
-    if (this.paused) {
-      el.pause();
-      console.log("Oi");
-    }
+    let firstPlay = true;
+    el.addEventListener("playing", () => {
+      if (firstPlay) this.timeout(el.duration * 1000);
+      firstPlay = false;
+    });
   }
 
   addControl() {
@@ -101,7 +114,8 @@ export default class Slide {
   }
 
   init() {
-    this.show(this.index);
+    const index = localStorage.getItem("index");
+    this.show(index ? +index : this.index);
     this.addControl();
   }
 }
