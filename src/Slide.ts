@@ -113,9 +113,21 @@ export default class Slide {
     next.addEventListener("pointerdown", () => this.pause());
   }
 
+  addProgressBar() {
+    for (let index = 0; index < this.elements.length; index++) {
+      const progress = document.createElement("div");
+      const fill = document.createElement("div");
+      this.container.appendChild(progress);
+      progress.appendChild(fill);
+      progress.classList.add("progress");
+      fill.classList.add("progress-fill");
+    }
+  }
+
   init() {
     const index = localStorage.getItem("index");
     this.show(index ? +index : this.index);
     this.addControl();
+    this.addProgressBar();
   }
 }
