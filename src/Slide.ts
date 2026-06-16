@@ -33,6 +33,7 @@ export default class Slide {
   timeout(time: number) {
     if (this.paused) {
       this.paused = false;
+      this.progressBars[this.index]?.classList.remove("paused");
       this.timeControl?.continue();
       if (this.slide instanceof HTMLVideoElement) {
         this.slide.play();
@@ -85,6 +86,7 @@ export default class Slide {
 
   pause() {
     this.pressTimeout = new Timeout(() => {
+      this.progressBars[this.index]?.classList.add("paused");
       this.timeControl?.pause();
       this.paused = true;
       if (this.slide instanceof HTMLVideoElement) {
@@ -94,6 +96,8 @@ export default class Slide {
   }
 
   autoVideo(el: HTMLVideoElement) {
+    this.progressBars[this.index].style.animationDuration =
+      String(el.duration) + "s";
     el.muted = true;
     el.play();
     let firstPlay = true;

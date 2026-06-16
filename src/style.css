@@ -79,3 +79,7 @@ body {
 .progress-fill.animate {
   animation: progress linear forwards;
 }
+
+.progress-fill.animate.paused {
+  animation-play-state: paused;
+}
