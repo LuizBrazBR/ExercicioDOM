@@ -85,6 +85,7 @@ export default class Slide {
   }
 
   pause() {
+    document.body.classList.add("paused");
     this.pressTimeout = new Timeout(() => {
       this.progressBars[this.index]?.classList.add("paused");
       this.timeControl?.pause();
@@ -114,8 +115,8 @@ export default class Slide {
     prev.innerHTML = "<";
     this.controls.appendChild(prev);
     this.controls.appendChild(next);
-    next.addEventListener("pointerup", () => this.next());
-    prev.addEventListener("pointerup", () => this.prev());
+    document.addEventListener("pointerup", () => this.next());
+    document.addEventListener("pointerup", () => this.prev());
     prev.addEventListener("pointerdown", () => this.pause());
     next.addEventListener("pointerdown", () => this.pause());
   }

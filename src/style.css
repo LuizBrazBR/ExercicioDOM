@@ -84,3 +84,12 @@ body {
 .progress-fill.animate.paused {
   animation-play-state: paused;
 }
+
+body.paused {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  touch-action: manipulation;
+}
