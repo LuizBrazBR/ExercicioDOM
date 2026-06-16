@@ -46,6 +46,7 @@ body {
   display: flex;
   gap: 1rem;
   box-sizing: border-box;
+  pointer-events: none;
 }
 
 .progress {
