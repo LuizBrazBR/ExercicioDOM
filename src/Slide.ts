@@ -10,6 +10,7 @@ export default class Slide {
   timeControl: Timeout | null;
   paused: boolean;
   pressTimeout: Timeout | null = null;
+  progressBars: HTMLElement[];
 
   constructor(
     container: Element,
@@ -26,6 +27,7 @@ export default class Slide {
     this.timeControl = null;
     this.paused = false;
     this.pressTimeout = null;
+    this.progressBars = [];
   }
 
   timeout(time: number) {
@@ -50,6 +52,7 @@ export default class Slide {
       this.slide = this.elements[this.index];
       this.hide();
       this.slide.classList.add("active");
+      this.updateProgress();
       if (this.slide instanceof HTMLVideoElement) {
         this.autoVideo(this.slide);
       } else {
@@ -114,8 +117,8 @@ export default class Slide {
   }
 
   addProgressBar() {
-      const container = document.createElement("div");
-      container.classList.add("progress-container");
+    const container = document.createElement("div");
+    container.classList.add("progress-container");
     for (let index = 0; index < this.elements.length; index++) {
       const progress = document.createElement("div");
       const fill = document.createElement("div");
@@ -124,13 +127,23 @@ export default class Slide {
       progress.appendChild(fill);
       progress.classList.add("progress");
       fill.classList.add("progress-fill");
+      fill.style.animationDuration = String(this.time) + "ms";
+      this.progressBars.push(fill);
     }
+  }
+
+  updateProgress() {
+    this.progressBars.forEach((fill) => {
+      fill.classList.remove("animate");
+    });
+
+    this.progressBars[this.index]?.classList.add("animate");
   }
 
   init() {
     const index = localStorage.getItem("index");
+    this.addProgressBar();
     this.show(index ? +index : this.index);
     this.addControl();
-    this.addProgressBar();
   }
 }
