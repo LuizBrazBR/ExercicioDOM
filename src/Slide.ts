@@ -96,13 +96,13 @@ export default class Slide {
   }
 
   autoVideo(el: HTMLVideoElement) {
-    this.progressBars[this.index].style.animationDuration =
-      String(el.duration) + "s";
     el.muted = true;
     el.play();
     let firstPlay = true;
     el.addEventListener("playing", () => {
       if (firstPlay) this.timeout(el.duration * 1000);
+      this.progressBars[this.index].style.animationDuration =
+        String(el.duration) + "s";
       firstPlay = false;
     });
   }
