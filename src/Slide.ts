@@ -34,6 +34,7 @@ export default class Slide {
     if (this.paused) {
       this.paused = false;
       this.progressBars[this.index]?.classList.remove("paused");
+      document.body.classList.remove("paused");
       this.timeControl?.continue();
       if (this.slide instanceof HTMLVideoElement) {
         this.slide.play();
@@ -115,10 +116,13 @@ export default class Slide {
     prev.innerHTML = "<";
     this.controls.appendChild(prev);
     this.controls.appendChild(next);
-    document.addEventListener("pointerup", () => this.next());
-    document.addEventListener("pointerup", () => this.prev());
-    prev.addEventListener("pointerdown", () => this.pause());
-    next.addEventListener("pointerdown", () => this.pause());
+    next.addEventListener("pointerup", () => this.next());
+    prev.addEventListener("pointerup", () => this.prev());
+    this.controls.addEventListener("pointerdown", () => this.pause());
+    document.addEventListener("pointerup", () => {
+      if (!this.paused) return;
+      this.show(this.index);
+    });
   }
 
   addProgressBar() {
