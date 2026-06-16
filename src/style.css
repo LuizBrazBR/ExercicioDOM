@@ -34,25 +34,40 @@ body {
 
 .carousel {
   display: grid;
+  position:relative;
+ 
+  
 }
 
-.bar {
-  display: block;
-  background-color: aquamarine;
+.progress-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0.70rem;
+  display: flex;
+  gap: 1rem;
+  box-sizing: border-box;
 }
 
 .progress {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.2);
+  flex: 1;
+  height: 8px;
+ 
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  overflow: hidden;
 }
 
 .progress-fill {
+  width: 100%;
   height: 100%;
-  background: #fff;
+  background: white;
+  border-radius: inherit;
+
+  transform: scaleX(0);
+  transform-origin: left;
+
   animation: progress 3s linear forwards;
 }
 

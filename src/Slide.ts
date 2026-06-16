@@ -114,10 +114,13 @@ export default class Slide {
   }
 
   addProgressBar() {
+      const container = document.createElement("div");
+      container.classList.add("progress-container");
     for (let index = 0; index < this.elements.length; index++) {
       const progress = document.createElement("div");
       const fill = document.createElement("div");
-      this.container.appendChild(progress);
+      this.container.appendChild(container);
+      container.appendChild(progress);
       progress.appendChild(fill);
       progress.classList.add("progress");
       fill.classList.add("progress-fill");
