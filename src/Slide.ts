@@ -118,7 +118,11 @@ export default class Slide {
     this.controls.appendChild(next);
     next.addEventListener("pointerup", () => this.next());
     prev.addEventListener("pointerup", () => this.prev());
-    this.controls.addEventListener("pointerdown", () => this.pause());
+    this.controls.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      this.pause();
+    });
+    this.container.addEventListener("contextmenu", (e) => e.preventDefault());
     document.addEventListener("pointerup", () => {
       if (!this.paused) return;
       this.show(this.index);

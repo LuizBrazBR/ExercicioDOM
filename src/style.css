@@ -35,6 +35,9 @@ body {
 .carousel {
   display: grid;
   position: relative;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .progress-container {
