@@ -123,6 +123,10 @@ export default class Slide {
       if (!this.paused) return;
       this.show(this.index);
     });
+        document.addEventListener("touchend", () => {
+      if (!this.paused) return;
+      this.show(this.index);
+    });
   }
 
   addProgressBar() {

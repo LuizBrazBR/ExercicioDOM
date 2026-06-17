@@ -93,3 +93,10 @@ body.paused {
   -webkit-text-size-adjust: none;
   touch-action: manipulation;
 }
+
+img {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none; /* opcional (bloqueia interação total) */
+}
